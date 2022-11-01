@@ -76,6 +76,7 @@
 #define __MCF_ALWAYS_INLINE   __MCF_GNU_INLINE __attribute__((__always_inline__, __artificial__))
 #define __MCF_NEVER_INLINE   __attribute__((__noinline__))
 #define __MCF_GNU_INLINE    extern __inline__ __attribute__((__gnu_inline__))
+#define __MCF_ASM_CALL(x)   __asm__(__MCF_S(__USER_LABEL_PREFIX__) #x)
 
 #ifndef __cplusplus
 #  define __MCF_NOEXCEPT
@@ -103,15 +104,6 @@ __MCF_C_DECLARATIONS_BEGIN
 #ifndef __MCF_FWD_IMPORT
 #  define __MCF_FWD_IMPORT
 #  define __MCF_FWD_INLINE  __MCF_GNU_INLINE
-#endif
-
-/* Define a macro for aliasing functions, in order to prevent DLL hells. This
- * is probably not a perfect solution for C, but at least it allows aliases to
- * be inlined.  */
-#ifdef __cplusplus
-#  define __MCF_ALIAS(alias, target)   static __typeof__(target)& alias = (target)
-#else
-#  define __MCF_ALIAS(alias, target)   static __typeof__(target)* const alias = (target)
 #endif
 
 /* The `__MCF_STATIC_ASSERT_0()` macro is an expression that yields zero if it
