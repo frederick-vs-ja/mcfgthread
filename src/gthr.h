@@ -567,7 +567,7 @@ __MCF_gthr_yield(void) __MCF_NOEXCEPT;
 __MCF_ALWAYS_INLINE
 void
 __gthread_yield(void) __MCF_NOEXCEPT
-  { return __MCF_gthr_yield();  }
+  { __MCF_gthr_yield();  }
 
 __MCF_ALWAYS_INLINE
 void

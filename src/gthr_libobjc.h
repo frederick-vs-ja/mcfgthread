@@ -21,22 +21,38 @@ __MCF_C_DECLARATIONS_BEGIN
 typedef void* objc_thread_t;
 
 /* Initialize the threads subsystem.  */
-__MCF_GTHR_LIBOBJC_INLINE __MCF_CXX11(constexpr)
+__MCF_GTHR_LIBOBJC_INLINE
 int
 __MCF_gthr_objc_init_thread_system(void) __MCF_NOEXCEPT;
 
 #ifndef __MCF_GTHR_LIBOBJC_NO_ALIASES
-__MCF_ALIAS(__gthread_objc_init_thread_system, __MCF_gthr_objc_init_thread_system);
-#endif
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_init_thread_system(void) __MCF_NOEXCEPT
+  { return __MCF_gthr_objc_init_thread_system();  }
+
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_init_thread_system(void) __MCF_NOEXCEPT
+  __MCF_ASM_CALL(__MCF_gthr_objc_init_thread_system);
+#endif  /* __MCF_GTHR_LIBOBJC_NO_ALIASES  */
 
 /* Close the threads subsystem.  */
-__MCF_GTHR_LIBOBJC_INLINE __MCF_CXX11(constexpr)
+__MCF_GTHR_LIBOBJC_INLINE
 int
 __MCF_gthr_objc_close_thread_system(void) __MCF_NOEXCEPT;
 
 #ifndef __MCF_GTHR_LIBOBJC_NO_ALIASES
-__MCF_ALIAS(__gthread_objc_close_thread_system, __MCF_gthr_objc_close_thread_system);
-#endif
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_close_thread_system(void) __MCF_NOEXCEPT
+  { return __MCF_gthr_objc_close_thread_system();  }
+
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_close_thread_system(void) __MCF_NOEXCEPT
+  __MCF_ASM_CALL(__MCF_gthr_objc_close_thread_system);
+#endif  /* __MCF_GTHR_LIBOBJC_NO_ALIASES  */
 
 /* Below are functions that depend on libobjc types and are thus
  * provided static inline only. Nevertheless, it is still possible to
@@ -48,70 +64,70 @@ __MCF_ALWAYS_INLINE
 int
 __MCF_gthr_objc_mutex_allocate(objc_mutex_t __objc_mtx) __MCF_NOEXCEPT;
 
-#define __gthread_objc_mutex_allocate  __MCF_gthr_objc_mutex_allocate
+__MCF_ALIAS(__gthread_objc_mutex_allocate, __MCF_gthr_objc_mutex_allocate);
 
 /* Deallocate a mutex.  */
 __MCF_ALWAYS_INLINE
 int
 __MCF_gthr_objc_mutex_deallocate(objc_mutex_t __objc_mtx) __MCF_NOEXCEPT;
 
-#define __gthread_objc_mutex_deallocate  __MCF_gthr_objc_mutex_deallocate
+__MCF_ALIAS(__gthread_objc_mutex_deallocate, __MCF_gthr_objc_mutex_deallocate);
 
 /* Grab a lock on a mutex.  */
 __MCF_ALWAYS_INLINE
 int
 __MCF_gthr_objc_mutex_lock(objc_mutex_t __objc_mtx) __MCF_NOEXCEPT;
 
-#define __gthread_objc_mutex_lock  __MCF_gthr_objc_mutex_lock
+__MCF_ALIAS(__gthread_objc_mutex_lock, __MCF_gthr_objc_mutex_lock);
 
 /* Try to grab a lock on a mutex.  */
 __MCF_ALWAYS_INLINE
 int
 __MCF_gthr_objc_mutex_trylock(objc_mutex_t __objc_mtx) __MCF_NOEXCEPT;
 
-#define __gthread_objc_mutex_trylock  __MCF_gthr_objc_mutex_trylock
+__MCF_ALIAS(__gthread_objc_mutex_trylock, __MCF_gthr_objc_mutex_trylock);
 
 /* Unlock the mutex.  */
 __MCF_ALWAYS_INLINE
 int
 __MCF_gthr_objc_mutex_unlock(objc_mutex_t __objc_mtx) __MCF_NOEXCEPT;
 
-#define __gthread_objc_mutex_unlock  __MCF_gthr_objc_mutex_unlock
+__MCF_ALIAS(__gthread_objc_mutex_unlock, __MCF_gthr_objc_mutex_unlock);
 
 /* Allocate a condition.  */
 __MCF_ALWAYS_INLINE
 int
 __MCF_gthr_objc_condition_allocate(objc_condition_t __objc_cond) __MCF_NOEXCEPT;
 
-#define __gthread_objc_condition_allocate  __MCF_gthr_objc_condition_allocate
+__MCF_ALIAS(__gthread_objc_condition_allocate, __MCF_gthr_objc_condition_allocate);
 
 /* Deallocate a condition.  */
 __MCF_ALWAYS_INLINE
 int
 __MCF_gthr_objc_condition_deallocate(objc_condition_t __objc_cond) __MCF_NOEXCEPT;
 
-#define __gthread_objc_condition_deallocate  __MCF_gthr_objc_condition_deallocate
+__MCF_ALIAS(__gthread_objc_condition_deallocate, __MCF_gthr_objc_condition_deallocate);
 
 /* Wait on the condition.  */
 __MCF_ALWAYS_INLINE
 int
 __MCF_gthr_objc_condition_wait(objc_condition_t __objc_cond, objc_mutex_t __objc_mtx) __MCF_NOEXCEPT;
 
-#define __gthread_objc_condition_wait  __MCF_gthr_objc_condition_wait
+__MCF_ALIAS(__gthread_objc_condition_wait, __MCF_gthr_objc_condition_wait);
 
 /* Wake up one thread waiting on this condition.  */
 __MCF_ALWAYS_INLINE
 int
 __MCF_gthr_objc_condition_signal(objc_condition_t __objc_cond) __MCF_NOEXCEPT;
 
-#define __gthread_objc_condition_signal  __MCF_gthr_objc_condition_signal
+__MCF_ALIAS(__gthread_objc_condition_signal, __MCF_gthr_objc_condition_signal);
 
 /* Wake up all threads waiting on this condition.  */
 __MCF_ALWAYS_INLINE
 int
 __MCF_gthr_objc_condition_broadcast(objc_condition_t __objc_cond) __MCF_NOEXCEPT;
 
-#define __gthread_objc_condition_broadcast  __MCF_gthr_objc_condition_broadcast
+__MCF_ALIAS(__gthread_objc_condition_broadcast, __MCF_gthr_objc_condition_broadcast);
 
 #endif  /* _LIBOBJC  */
 
@@ -122,8 +138,16 @@ objc_thread_t
 __MCF_gthr_objc_thread_detach(__MCF_gthr_thread_procedure* __proc, void* __arg) __MCF_NOEXCEPT;
 
 #ifndef __MCF_GTHR_LIBOBJC_NO_ALIASES
-__MCF_ALIAS(__gthread_objc_thread_detach, __MCF_gthr_objc_thread_detach);
-#endif
+__MCF_ALWAYS_INLINE
+objc_thread_t
+__gthread_objc_thread_detach(__MCF_gthr_thread_procedure* __proc, void* __arg) __MCF_NOEXCEPT
+  { return __MCF_gthr_objc_thread_detach(__proc, __arg);  }
+
+__MCF_ALWAYS_INLINE
+objc_thread_t
+__gthread_objc_thread_detach(__MCF_gthr_thread_procedure* __proc, void* __arg) __MCF_NOEXCEPT
+  __MCF_ASM_CALL(__MCF_gthr_objc_thread_detach);
+#endif  /* __MCF_GTHR_LIBOBJC_NO_ALIASES  */
 
 /* Set the current thread's priority.  */
 __MCF_GTHR_LIBOBJC_INLINE
@@ -131,8 +155,16 @@ int
 __MCF_gthr_objc_thread_set_priority(int __priority) __MCF_NOEXCEPT;
 
 #ifndef __MCF_GTHR_LIBOBJC_NO_ALIASES
-__MCF_ALIAS(__gthread_objc_thread_set_priority, __MCF_gthr_objc_thread_set_priority);
-#endif
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_thread_set_priority(int __priority) __MCF_NOEXCEPT
+  { return __MCF_gthr_objc_thread_set_priority(__priority);  }
+
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_thread_set_priority(int __priority) __MCF_NOEXCEPT
+  __MCF_ASM_CALL(__MCF_gthr_objc_thread_set_priority);
+#endif  /* __MCF_GTHR_LIBOBJC_NO_ALIASES  */
 
 /* Return the current thread's priority.  */
 __MCF_GTHR_LIBOBJC_INLINE
@@ -140,8 +172,16 @@ int
 __MCF_gthr_objc_thread_get_priority(void) __MCF_NOEXCEPT __attribute__((__pure__));
 
 #ifndef __MCF_GTHR_LIBOBJC_NO_ALIASES
-__MCF_ALIAS(__gthread_objc_thread_get_priority, __MCF_gthr_objc_thread_get_priority);
-#endif
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_thread_get_priority(void) __MCF_NOEXCEPT
+  { return __MCF_gthr_objc_thread_get_priority();  }
+
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_thread_get_priority(void) __MCF_NOEXCEPT
+  __MCF_ASM_CALL(__MCF_gthr_objc_thread_get_priority);
+#endif  /* __MCF_GTHR_LIBOBJC_NO_ALIASES  */
 
 /* Yield our process time to another thread.  */
 __MCF_GTHR_LIBOBJC_INLINE
@@ -149,8 +189,16 @@ void
 __MCF_gthr_objc_thread_yield(void) __MCF_NOEXCEPT;
 
 #ifndef __MCF_GTHR_LIBOBJC_NO_ALIASES
-__MCF_ALIAS(__gthread_objc_thread_yield, __MCF_gthr_objc_thread_yield);
-#endif
+__MCF_ALWAYS_INLINE
+void
+__gthread_objc_thread_yield(void) __MCF_NOEXCEPT
+  { __MCF_gthr_objc_thread_yield();  }
+
+__MCF_ALWAYS_INLINE
+void
+__gthread_objc_thread_yield(void) __MCF_NOEXCEPT
+  __MCF_ASM_CALL(__MCF_gthr_objc_thread_yield);
+#endif  /* __MCF_GTHR_LIBOBJC_NO_ALIASES  */
 
 /* Terminate the current thread.  */
 __MCF_GTHR_LIBOBJC_INLINE
@@ -158,8 +206,16 @@ int
 __MCF_gthr_objc_thread_exit(void) __MCF_NOEXCEPT __attribute__((__noreturn__));
 
 #ifndef __MCF_GTHR_LIBOBJC_NO_ALIASES
-__MCF_ALIAS(__gthread_objc_thread_exit, __MCF_gthr_objc_thread_exit);
-#endif
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_thread_exit(void) __MCF_NOEXCEPT
+  { return __MCF_gthr_objc_thread_exit();  }
+
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_thread_exit(void) __MCF_NOEXCEPT
+  __MCF_ASM_CALL(__MCF_gthr_objc_thread_exit);
+#endif  /* __MCF_GTHR_LIBOBJC_NO_ALIASES  */
 
 /* Returns an integer value which uniquely describes a thread.  */
 __MCF_GTHR_LIBOBJC_INLINE
@@ -167,8 +223,16 @@ objc_thread_t
 __MCF_gthr_objc_thread_id(void) __MCF_NOEXCEPT __attribute__((__const__));
 
 #ifndef __MCF_GTHR_LIBOBJC_NO_ALIASES
-__MCF_ALIAS(__gthread_objc_thread_id, __MCF_gthr_objc_thread_id);
-#endif
+__MCF_ALWAYS_INLINE
+objc_thread_t
+__gthread_objc_thread_id(void) __MCF_NOEXCEPT
+  { return __MCF_gthr_objc_thread_id();  }
+
+__MCF_ALWAYS_INLINE
+objc_thread_t
+__gthread_objc_thread_id(void) __MCF_NOEXCEPT
+  __MCF_ASM_CALL(__MCF_gthr_objc_thread_id);
+#endif  /* __MCF_GTHR_LIBOBJC_NO_ALIASES  */
 
 /* Returns the thread's local storage pointer.  */
 __MCF_GTHR_LIBOBJC_INLINE
@@ -176,8 +240,16 @@ void*
 __MCF_gthr_objc_thread_get_data(void) __MCF_NOEXCEPT __attribute__((__pure__));
 
 #ifndef __MCF_GTHR_LIBOBJC_NO_ALIASES
-__MCF_ALIAS(__gthread_objc_thread_get_data, __MCF_gthr_objc_thread_get_data);
-#endif
+__MCF_ALWAYS_INLINE
+void*
+__gthread_objc_thread_get_data(void) __MCF_NOEXCEPT
+  { return __MCF_gthr_objc_thread_get_data();  }
+
+__MCF_ALWAYS_INLINE
+void*
+__gthread_objc_thread_get_data(void) __MCF_NOEXCEPT
+  __MCF_ASM_CALL(__MCF_gthr_objc_thread_get_data);
+#endif  /* __MCF_GTHR_LIBOBJC_NO_ALIASES  */
 
 /* Sets the thread's local storage pointer.  */
 __MCF_GTHR_LIBOBJC_INLINE
@@ -185,22 +257,30 @@ int
 __MCF_gthr_objc_thread_set_data(void* __value) __MCF_NOEXCEPT;
 
 #ifndef __MCF_GTHR_LIBOBJC_NO_ALIASES
-__MCF_ALIAS(__gthread_objc_thread_set_data, __MCF_gthr_objc_thread_set_data);
-#endif
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_thread_set_data(void* __value) __MCF_NOEXCEPT
+  { return __MCF_gthr_objc_thread_set_data(__value);  }
+
+__MCF_ALWAYS_INLINE
+int
+__gthread_objc_thread_set_data(void* __value) __MCF_NOEXCEPT
+  __MCF_ASM_CALL(__MCF_gthr_objc_thread_set_data);
+#endif  /* __MCF_GTHR_LIBOBJC_NO_ALIASES  */
 
 /* Define inline functions after all declarations.
  * We would like to keep them away from declarations for conciseness, which also
  * matches the disposition of non-inline functions. Note that however, unlike C++
  * inline functions, they have to have consistent inline specifiers throughout
  * this file.  */
-__MCF_GTHR_LIBOBJC_INLINE __MCF_CXX11(constexpr)
+__MCF_GTHR_LIBOBJC_INLINE
 int
 __MCF_gthr_objc_init_thread_system(void) __MCF_NOEXCEPT
   {
     return 0;
   }
 
-__MCF_GTHR_LIBOBJC_INLINE __MCF_CXX11(constexpr)
+__MCF_GTHR_LIBOBJC_INLINE
 int
 __MCF_gthr_objc_close_thread_system(void) __MCF_NOEXCEPT
   {
