@@ -51,20 +51,37 @@ _MCF_thread_new_aligned(_MCF_thread_procedure* proc, size_t align, const void* d
       return __MCF_win32_error_p(ERROR_ARITHMETIC_OVERFLOW, NULL);
 
     /* Allocate and initialize the thread control structure.  */
-    uint32_t align_fixup = 0;
-    if(__MCF_THREAD_DATA_ALIGNMENT > MEMORY_ALLOCATION_ALIGNMENT)
-      align_fixup = __MCF_THREAD_DATA_ALIGNMENT - MEMORY_ALLOCATION_ALIGNMENT;
+    size_t nalloc = sizeof(_MCF_thread) + size;
+    if(align > MEMORY_ALLOCATION_ALIGNMENT)
+      nalloc += align - MEMORY_ALLOCATION_ALIGNMENT;
 
-    _MCF_thread* thrd = __MCF_malloc_0(sizeof(_MCF_thread) + size + align_fixup);
+    _MCF_thread* thrd = __MCF_malloc_0(nalloc);
     if(!thrd)
       return __MCF_win32_error_p(ERROR_NOT_ENOUGH_MEMORY, NULL);
 
     _MCF_atomic_store_32_rlx(thrd->__nref, 2);
     thrd->__proc = proc;
-
     thrd->__data_ptr = thrd->__data_storage;
-    if(align_fixup != 0)
-      thrd->__data_ptr = (char*) ((uintptr_t) (thrd->__data_ptr - 1) | (__MCF_THREAD_DATA_ALIGNMENT - 1)) + 1;
+
+    if(align > MEMORY_ALLOCATION_ALIGNMENT) {
+      thrd->__data_ptr = (char*) ((uintptr_t) (thrd->__data_ptr - 1) | (align - 1)) + 1;
+
+      /* If we have over-allocated, give back some. Errors are ignored.  */
+      size_t nreal = (uintptr_t) thrd->__data_ptr + size - (uintptr_t) thrd;
+
+void* LoadLibraryA(const char*);
+void* GetProcAddress(void*, const char*);
+typedef int xprintf(const char*, ...);
+xprintf* pf = (xprintf*) GetProcAddress(LoadLibraryA("MSVCRT.DLL"), "printf");
+pf("alloc %Id, real %Id, ptr %p\n", nalloc, nreal, thrd->__data_ptr);
+typedef int xfflush(void*);
+xfflush* ff = (xfflush*) GetProcAddress(LoadLibraryA("MSVCRT.DLL"), "fflush");
+ff(NULL);
+
+
+      if(nreal < nalloc)
+        HeapReAlloc(__MCF_crt_heap, HEAP_REALLOC_IN_PLACE_ONLY, thrd, nreal);
+    }
 
     if(data_opt)
       __MCF_mcopy(thrd->__data_ptr, data_opt, size);

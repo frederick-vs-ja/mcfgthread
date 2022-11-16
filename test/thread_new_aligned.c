@@ -28,6 +28,7 @@ main(void)
       assert(thrd);
 
       void* data = _MCF_thread_get_data(thrd);
+printf("data %p, align %Id\n", data, align);
       assert((uintptr_t) data % align == 0);
       assert((char*) data + size <= (char*) thrd + HeapSize(GetProcessHeap(), 0, thrd));
 
