@@ -35,11 +35,17 @@ do_win32_thread_thunk(LPVOID param)
 
 __MCF_DLLEXPORT
 _MCF_thread*
-_MCF_thread_new(_MCF_thread_procedure* proc, const void* data_opt, size_t size)
+_MCF_thread_new_aligned(_MCF_thread_procedure* proc, size_t align, const void* data_opt, size_t size)
   {
     /* Validate arguments.  */
     if(!proc)
       return __MCF_win32_error_p(ERROR_INVALID_PARAMETER, NULL);
+
+    if(align & (align - 1))
+      return __MCF_win32_error_p(ERROR_NOT_SUPPORTED, NULL);
+
+    if(align >= 0x10000000U)
+      return __MCF_win32_error_p(ERROR_NOT_SUPPORTED, NULL);
 
     if(size >= 0x7FF00000U)
       return __MCF_win32_error_p(ERROR_ARITHMETIC_OVERFLOW, NULL);
